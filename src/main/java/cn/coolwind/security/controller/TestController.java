@@ -28,4 +28,13 @@ public class TestController {
         rolePermissionRepository.save(role);
         return "ok";
     }
+
+    @GetMapping("/p1")
+    public Object p1(){
+        return "p1 Page";
+    }
+    @GetMapping("/p2")
+    public Object p2(){
+        return "p2 Page";
+    }
 }

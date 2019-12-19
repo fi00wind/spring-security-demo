@@ -1,5 +1,6 @@
 package cn.coolwind.security.security;
 
+import cn.coolwind.security.entity.PermissionEntity;
 import cn.coolwind.security.entity.RoleEntity;
 import cn.coolwind.security.entity.UserEntity;
 import cn.coolwind.security.service.UserService;
@@ -11,10 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,11 +26,11 @@ public class UserAuthService implements UserDetailsService {
         if (userEntity == null) {
             throw new UsernameNotFoundException("用户不存在！");
         }
-        List<SimpleGrantedAuthority> roles = userService.getRolesByUserId(userEntity.getId())
+        List<SimpleGrantedAuthority> permissionList = userService.getPermissionByUserId(userEntity.getId())
         .stream()
-        .map(RoleEntity::getRole)
+        .map(PermissionEntity::getCode)
         .map(SimpleGrantedAuthority::new)
         .collect(Collectors.toList());
-        return new User(userEntity.getUsername(), userEntity.getPassword(), roles);
+        return new User(userEntity.getUsername(), userEntity.getPassword(), permissionList);
     }
 }

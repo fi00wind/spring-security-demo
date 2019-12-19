@@ -16,14 +16,14 @@ public class PermissionEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "code")
+    private String code;
+
     @Column(name = "type")
     private String type;
 
     @Column(name = "url")
     private String url;
-
-    @Column(name = "icon")
-    private String icon;
 
     @Column(name = "parent_id")
     private Integer parentId;

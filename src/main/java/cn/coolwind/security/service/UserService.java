@@ -1,5 +1,6 @@
 package cn.coolwind.security.service;
 
+import cn.coolwind.security.entity.PermissionEntity;
 import cn.coolwind.security.entity.RoleEntity;
 import cn.coolwind.security.entity.UserEntity;
 
@@ -9,4 +10,6 @@ public interface UserService {
     UserEntity getByUsername(String username);
 
     List<RoleEntity> getRolesByUserId(Integer id);
+
+    List<PermissionEntity> getPermissionByUserId(Integer id);
 }
