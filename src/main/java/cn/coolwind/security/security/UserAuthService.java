@@ -1,5 +1,6 @@
 package cn.coolwind.security.security;
 
+import cn.coolwind.security.entity.RoleEntity;
 import cn.coolwind.security.entity.UserEntity;
 import cn.coolwind.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,11 @@ public class UserAuthService implements UserDetailsService {
         if (userEntity == null) {
             throw new UsernameNotFoundException("用户不存在！");
         }
-        List<SimpleGrantedAuthority> roles = new ArrayList<>();
-        if (userEntity.getRoles() != null) {
-            roles = Arrays.stream(userEntity.getRoles().split(","))
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList());
-        }
-
+        List<SimpleGrantedAuthority> roles = userService.getRolesByUserId(userEntity.getId())
+        .stream()
+        .map(RoleEntity::getRole)
+        .map(SimpleGrantedAuthority::new)
+        .collect(Collectors.toList());
         return new User(userEntity.getUsername(), userEntity.getPassword(), roles);
     }
 }
