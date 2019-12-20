@@ -13,4 +13,6 @@ public interface PermissionRepository extends JpaRepository<PermissionEntity,Int
             "(select permission_id from sys_role_permission where role_id in " +
             "(select role_id from sys_user_role where user_id = ?)))",nativeQuery = true)
     List<PermissionEntity> getByUserId(int id);
+
+    PermissionEntity getByUrl(String url);
 }
