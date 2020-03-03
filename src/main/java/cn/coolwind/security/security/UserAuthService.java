@@ -28,7 +28,7 @@ public class UserAuthService implements UserDetailsService {
         }
         List<SimpleGrantedAuthority> permissionList = userService.getPermissionByUserId(userEntity.getId())
         .stream()
-        .map(PermissionEntity::getCode)
+        .map(PermissionEntity::getUrl)
         .map(SimpleGrantedAuthority::new)
         .collect(Collectors.toList());
         return new User(userEntity.getUsername(), userEntity.getPassword(), permissionList);

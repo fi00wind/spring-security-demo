@@ -27,23 +27,12 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/p1/**").hasAuthority("p1")
-                .antMatchers("/p2/**").hasAuthority("p2")
                 .antMatchers("/test").authenticated()
+                .anyRequest().access("@authorizeService.check(authentication,request)")
                 .and()
                 .formLogin()
                 .and()
-                .logout().logoutUrl("/logout")
-        .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-            @Override
-            public <O extends FilterSecurityInterceptor> O postProcess(O o) {
-                o.setSecurityMetadataSource(new MySecurityMetadataSource(permissionRepository));
-                List list = new ArrayList();
-                list.add(new MyAccessDecisionVoter());
-                o.setAccessDecisionManager(new AffirmativeBased(list));
-                return o;
-            }
-        });
+                .logout().logoutUrl("/logout");
     }
 
     @Override
